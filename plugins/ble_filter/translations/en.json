@@ -1,0 +1,15 @@
+{
+  "_meta": { "name": "English" },
+  "screen": {
+    "name": "Bluetooth filter",
+    "threshold": "Threshold",
+    "forwarded": "Forwarded",
+    "dropped": "Dropped"
+  },
+  "app": {
+    "name": "BLE advert filter",
+    "summary": "The Bluetooth proxy sends Home Assistant only the adverts that matter, not every phone that walks by.",
+    "setting_threshold": "Signal threshold (dBm)",
+    "setting_threshold_hint": "Adverts weaker than this are dropped on the screen. -80 is far, -50 is close. No build needed."
+  }
+}

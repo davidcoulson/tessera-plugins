@@ -1,0 +1,21 @@
+# BLE advert filter: David Coulson's ble_advert_filter in front of the Bluetooth proxy, so a screen forwards to Home
+# Assistant only the Bluetooth adverts that matter. It adds no tile and no Bluetooth of its own: the proxy is the
+# bt_proxy plugin's (it comes along), the filter hooks into it. The hook is new in ESPHome 2026.10, and bt_proxy needs a
+# board with the feature `bluetooth`, which only the ESP32-P4 boards bring.
+id: ble_filter
+version: 0.1.0
+api: "0.8"
+icon: bluetooth
+maintainer: davidcoulson
+license: MIT
+stage: beta
+topics: [home]
+requires:
+  esphome: 2026.10.0
+  plugins: [bt_proxy]
+boards: any
+flash_kb: 30
+
+# The filter's number in plugin.yaml, also in the plugin's details on the screen's Plugins tab.
+settings:
+  - { key: ble_rssi_threshold, label: setting_threshold, hint: setting_threshold_hint }

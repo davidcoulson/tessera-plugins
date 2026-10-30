@@ -1,0 +1,20 @@
+# What a screen gets when it takes this plugin: the filter in front of the proxy of the bt_proxy plugin, which comes
+# along. Apple's background adverts (Continuity, manufacturer 0x004C) are dropped, HomeKit accessories still pass, and
+# nothing weaker than the threshold is forwarded. iBeacons go with the rest of Apple's traffic; add `allow_ibeacon:` to
+# `ble_advert_filter:` in the screen's Override YAML to let one through.
+ble_advert_filter:
+  id: ble_filter_core
+  rssi_threshold: -80
+  manufacturer_blocklist:
+    - 0x004C
+  allow_homekit: true
+
+# The threshold in Home Assistant and in the plugin's details; the number above is its starting value, and a value set
+# there is kept across restarts.
+number:
+  - platform: ble_advert_filter
+    rssi_threshold:
+      name: "BLE RSSI Threshold"
+
+ble_filter:
+  filter: ble_filter_core
