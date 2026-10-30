@@ -1,0 +1,34 @@
+# Alert feed: Home Assistant's persistent notifications on a tile, newest first, and an optional wake-up with a popup when a
+# new one arrives. The screen asks Home Assistant through the app (persistent_notification/get); a notification is dismissed
+# with persistent_notification.dismiss. Nothing to set up in Home Assistant: whatever calls persistent_notification.create
+# (Unraid, UniFi, automations) lands in the feed.
+id: alert_feed
+version: 0.1.0
+api: "0.18"
+icon: bell
+maintainer: davidcoulson
+license: MIT
+stage: beta
+topics: [home, tech]
+requires:
+  esphome: 2026.6.2
+boards: any
+flash_kb: 14
+
+permissions:
+  # The list of notifications, asked every 30 seconds while the tile shows and every 2 minutes otherwise.
+  ha_commands: ["persistent_notification/get"]
+  # The popup's Dismiss key.
+  home_assistant_actions: [persistent_notification.dismiss]
+
+tiles:
+  - id: feed
+    name: tile_name
+    icon: bell
+    sizes: { min: 2x2, max: 4x2 }
+    memory: 1400
+    example: tile_example
+
+# The switch of plugin.yaml, also in the plugin's details on the screen's Plugins tab and on its settings page.
+settings:
+  - { key: wake_on_new_alert, label: setting_wake, hint: setting_wake_hint }

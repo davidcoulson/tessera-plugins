@@ -1,0 +1,11 @@
+# What tools/preview.py shows: the tile with notifications as Home Assistant has them (docs/PREVIEW.md).
+tiles:
+  - tile: feed
+    name: Alerts
+
+commands:
+  "persistent_notification/get":
+    - { notification_id: nas_disk, title: Disk 4 is hot, message: "Tower: disk 4 reached 52 C", created_at: "{now-3m}+00:00" }
+    - { notification_id: ups, title: UPS on battery, message: "The mains power failed", created_at: "{now-42m}+00:00" }
+    - { notification_id: backup, title: Backup finished, message: "Nightly backup ok", created_at: "{now-5h}+00:00" }
+    - { notification_id: update, title: Update available, message: "Home Assistant 2026.11", created_at: "{now-2d}+00:00" }

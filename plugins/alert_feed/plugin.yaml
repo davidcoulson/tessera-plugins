@@ -1,0 +1,14 @@
+# What a screen gets when it takes this plugin: the component, and the setting that lets a new notification wake the screen
+# and show a popup. It is off until someone turns it on; the setting is kept on the screen and shown in Home Assistant, on
+# the screen's settings page and in the editor.
+switch:
+  - platform: template
+    id: alert_feed_wake
+    name: "Wake on new alert"
+    icon: mdi:bell-ring
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    entity_category: config
+
+alert_feed:
+  wake_on_new_alert: alert_feed_wake

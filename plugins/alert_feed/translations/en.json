@@ -1,0 +1,22 @@
+{
+  "_meta": { "name": "English" },
+  "screen": {
+    "title": "Alerts",
+    "none": "No alerts",
+    "alert": "ALERT",
+    "dismiss": "Dismiss",
+    "now": "now",
+    "age_min": "{n} min",
+    "age_hour": "{n} h",
+    "age_day": "{n} d",
+    "wake": "Wake on new alert"
+  },
+  "app": {
+    "name": "Alert feed",
+    "summary": "Home Assistant's notifications on a tile, newest first. Tap one to read it or dismiss it; a new one can wake the screen.",
+    "tile_name": "Alerts",
+    "tile_example": "3 alerts: Disk 4 is hot, UPS on battery",
+    "setting_wake": "Wake on new alert",
+    "setting_wake_hint": "A notification Home Assistant did not have a moment ago lights the screen and shows it in a popup. Off until you turn it on. Screens that were off when it arrived show it in the feed only."
+  }
+}
