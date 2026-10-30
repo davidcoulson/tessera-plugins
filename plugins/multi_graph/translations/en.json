@@ -1,0 +1,26 @@
+{
+  "_meta": { "name": "English" },
+  "screen": {
+    "choose": "Choose a sensor"
+  },
+  "app": {
+    "name": "Multi graph",
+    "summary": "Up to four sensors as coloured lines over the last 6 to 48 hours, with their live values.",
+    "tile_name": "Multi graph",
+    "tile_example": "Four sensors over 24 hours",
+    "series_1": "Sensor 1",
+    "series_2": "Sensor 2",
+    "series_3": "Sensor 3",
+    "series_4": "Sensor 4",
+    "hours": "Hours shown",
+    "hours_hint": "How far back the lines go.",
+    "hours_6": "6 hours",
+    "hours_12": "12 hours",
+    "hours_24": "24 hours",
+    "hours_48": "48 hours",
+    "stat": "Line shows",
+    "stat_hint": "The average of each hour, or the highest value in it.",
+    "stat_mean": "Average",
+    "stat_max": "Highest"
+  }
+}

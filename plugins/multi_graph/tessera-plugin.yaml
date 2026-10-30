@@ -1,0 +1,59 @@
+# Multi graph: up to four sensors as coloured lines over the last 6 to 48 hours, with their live values under the head.
+# The history comes from Home Assistant's long-term statistics (recorder/statistics_during_period), asked through the
+# app; the live values come from the tile's entity options.
+id: multi_graph
+version: 0.1.0
+api: "0.15"
+icon: chart-line
+maintainer: davidcoulson
+license: MIT
+stage: beta
+topics: [tech, energy]
+requires:
+  esphome: 2026.6.2
+boards: any
+flash_kb: 8
+
+permissions:
+  ha_commands: ["recorder/statistics_during_period"]
+
+# One ask per sensor, so an answer holds one list of hours. The map keeps only what the tile draws: when each hour
+# starts and its mean or its highest value, about 1.6 KB for 48 hours (the app cuts an answer at 3.2 KB). A sensor
+# without long-term statistics (no state_class) answers with three empty lists.
+answers:
+  - command: recorder/statistics_during_period
+    fields:
+      start: { path: "[*][*].start", as: numbers }
+      mean: { path: "[*][*].mean", as: numbers }
+      max: { path: "[*][*].max", as: numbers }
+
+tiles:
+  - id: graph
+    name: tile_name
+    icon: chart-line
+    sizes: { min: 2x1, max: 4x2 }
+    memory: 1800
+    example: tile_example
+    options:
+      - { id: s1, kind: entity, domains: [sensor], attributes: [unit_of_measurement], label: series_1 }
+      - { id: s2, kind: entity, domains: [sensor], attributes: [unit_of_measurement], label: series_2 }
+      - { id: s3, kind: entity, domains: [sensor], attributes: [unit_of_measurement], label: series_3 }
+      - { id: s4, kind: entity, domains: [sensor], attributes: [unit_of_measurement], label: series_4 }
+      - id: hours
+        kind: choice
+        default: "24"
+        label: hours
+        hint: hours_hint
+        choices:
+          - { value: "6", label: hours_6 }
+          - { value: "12", label: hours_12 }
+          - { value: "24", label: hours_24 }
+          - { value: "48", label: hours_48 }
+      - id: stat
+        kind: choice
+        default: mean
+        label: stat
+        hint: stat_hint
+        choices:
+          - { value: mean, label: stat_mean }
+          - { value: max, label: stat_max }

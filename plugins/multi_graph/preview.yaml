@@ -1,0 +1,72 @@
+# What tools/preview.py shows (docs/PREVIEW.md). The app answers every question with the one answer under commands,
+# so the four lines share their history; they differ in the live value (the states) and the legend.
+tiles:
+  - tile: graph
+    name: Basement
+    options: { s1: sensor.ups_power, s2: sensor.server_power, s3: sensor.network_power, s4: sensor.solar_power, hours: "24" }
+    sizes: [2x1, 4x2]
+  - tile: graph
+    name: Two sensors
+    options: { s1: sensor.ups_power, s2: sensor.solar_power, hours: "12", stat: max }
+    sizes: [2x1]
+  - tile: graph
+    name: Nothing chosen
+    sizes: [2x1]
+
+states:
+  sensor.ups_power: { state: "612.4", attributes: { unit_of_measurement: W, friendly_name: UPS } }
+  sensor.server_power: { state: "341", attributes: { unit_of_measurement: W, friendly_name: Server } }
+  sensor.network_power: { state: "88.7", attributes: { unit_of_measurement: W, friendly_name: Network } }
+  sensor.solar_power: { state: "1520", attributes: { unit_of_measurement: W, friendly_name: Solar } }
+
+commands:
+  "recorder/statistics_during_period":
+    sensor.history:
+      - { start: "{epoch-48h}", mean: 583.0, max: 618.0 }
+      - { start: "{epoch-47h}", mean: 591.0, max: 626.0 }
+      - { start: "{epoch-46h}", mean: 598.9, max: 633.9 }
+      - { start: "{epoch-45h}", mean: 606.5, max: 641.5 }
+      - { start: "{epoch-44h}", mean: 613.4, max: 648.4 }
+      - { start: "{epoch-43h}", mean: 619.4, max: 654.4 }
+      - { start: "{epoch-42h}", mean: 624.2, max: 659.2 }
+      - { start: "{epoch-41h}", mean: 627.6, max: 662.6 }
+      - { start: "{epoch-40h}", mean: 629.6, max: 664.6 }
+      - { start: "{epoch-39h}", mean: 629.9, max: 664.9 }
+      - { start: "{epoch-38h}", mean: 628.7, max: 663.7 }
+      - { start: "{epoch-37h}", mean: 625.9, max: 660.9 }
+      - { start: "{epoch-36h}", mean: 621.7, max: 656.7 }
+      - { start: "{epoch-35h}", mean: 616.3, max: 651.3 }
+      - { start: "{epoch-34h}", mean: 609.8, max: 644.8 }
+      - { start: "{epoch-33h}", mean: 602.5, max: 637.5 }
+      - { start: "{epoch-32h}", mean: 594.7, max: 629.7 }
+      - { start: "{epoch-31h}", mean: 586.7, max: 621.7 }
+      - { start: "{epoch-30h}", mean: 578.8, max: 613.8 }
+      - { start: "{epoch-29h}", mean: 571.4, max: 606.4 }
+      - { start: "{epoch-28h}", mean: 564.7, max: 599.7 }
+      - { start: "{epoch-27h}", mean: 559.1, max: 594.1 }
+      - { start: "{epoch-26h}", mean: 554.7, max: 589.7 }
+      - { start: "{epoch-25h}", mean: 551.6, max: 586.6 }
+      - { start: "{epoch-24h}", mean: 550.2, max: 585.2 }
+      - { start: "{epoch-23h}", mean: 550.3, max: 585.3 }
+      - { start: "{epoch-22h}", mean: 551.9, max: 586.9 }
+      - { start: "{epoch-21h}", mean: 555.1, max: 590.1 }
+      - { start: "{epoch-20h}", mean: 559.7, max: 594.7 }
+      - { start: "{epoch-19h}", mean: 625.5, max: 660.5 }
+      - { start: "{epoch-18h}", mean: 632.3, max: 667.3 }
+      - { start: "{epoch-17h}", mean: 639.8, max: 674.8 }
+      - { start: "{epoch-16h}", mean: 647.7, max: 682.7 }
+      - { start: "{epoch-15h}", mean: 655.6, max: 690.6 }
+      - { start: "{epoch-14h}", mean: 603.4, max: 638.4 }
+      - { start: "{epoch-13h}", mean: 610.6, max: 645.6 }
+      - { start: "{epoch-12h}", mean: 617.0, max: 652.0 }
+      - { start: "{epoch-11h}", mean: 622.3, max: 657.3 }
+      - { start: "{epoch-10h}", mean: 626.4, max: 661.4 }
+      - { start: "{epoch-9h}", mean: 629.0, max: 664.0 }
+      - { start: "{epoch-8h}", mean: 630.0, max: 665.0 }
+      - { start: "{epoch-7h}", mean: 629.4, max: 664.4 }
+      - { start: "{epoch-6h}", mean: 627.3, max: 662.3 }
+      - { start: "{epoch-5h}", mean: 623.7, max: 658.7 }
+      - { start: "{epoch-4h}", mean: 618.7, max: 653.7 }
+      - { start: "{epoch-3h}", mean: 612.6, max: 647.6 }
+      - { start: "{epoch-2h}", mean: 605.6, max: 640.6 }
+      - { start: "{epoch-1h}", mean: 597.9, max: 632.9 }
