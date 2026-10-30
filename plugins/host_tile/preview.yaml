@@ -1,0 +1,11 @@
+tiles:
+  - tile: host
+    name: NAS
+    options: { host_name: nas, cpu: sensor.nas_cpu, mem: sensor.nas_mem, disk: sensor.nas_disk, temp: sensor.nas_temp, uptime: sensor.nas_uptime, online: binary_sensor.nas_ping }
+states:
+  sensor.nas_cpu: { state: "12", attributes: { unit_of_measurement: "%" } }
+  sensor.nas_mem: { state: "84", attributes: { unit_of_measurement: "%" } }
+  sensor.nas_disk: { state: "93", attributes: { unit_of_measurement: "%" } }
+  sensor.nas_temp: { state: "47", attributes: { unit_of_measurement: "°C" } }
+  sensor.nas_uptime: { state: "1209600", attributes: { unit_of_measurement: "s" } }
+  binary_sensor.nas_ping: { state: "on" }

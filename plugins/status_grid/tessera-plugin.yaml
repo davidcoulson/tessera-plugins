@@ -1,0 +1,39 @@
+# Status grid: up to eight Home Assistant entities as coloured cells, red or amber by thresholds. Reads entities the
+# person chooses per tile (no build to change them) and opens a popup with the entity's state and age on a tap.
+id: status_grid
+version: 0.1.0
+api: "0.18"
+icon: view-grid
+maintainer: davidcoulson
+license: MIT
+stage: beta
+topics: [tech, home]
+requires:
+  esphome: 2026.6.2
+boards: any
+flash_kb: 8
+
+tiles:
+  - id: grid
+    name: tile_name
+    icon: view-grid
+    sizes: { min: 2x2, max: 4x2 }
+    memory: 3200
+    example: tile_example
+    options:
+      - { id: e1, kind: entity, domains: &domains [sensor, binary_sensor, switch, update, input_boolean], attributes: &attrs [unit_of_measurement], label: entity_1 }
+      - { id: e2, kind: entity, domains: *domains, attributes: *attrs, label: entity_2 }
+      - { id: e3, kind: entity, domains: *domains, attributes: *attrs, label: entity_3 }
+      - { id: e4, kind: entity, domains: *domains, attributes: *attrs, label: entity_4 }
+      - { id: e5, kind: entity, domains: *domains, attributes: *attrs, label: entity_5 }
+      - { id: e6, kind: entity, domains: *domains, attributes: *attrs, label: entity_6 }
+      - { id: e7, kind: entity, domains: *domains, attributes: *attrs, label: entity_7 }
+      - { id: e8, kind: entity, domains: *domains, attributes: *attrs, label: entity_8 }
+      - { id: limits, kind: text, default: "80,90", label: limits, hint: limits_hint }
+      - id: direction
+        kind: choice
+        default: high
+        label: direction
+        choices:
+          - { value: high, label: direction_high }
+          - { value: low, label: direction_low }

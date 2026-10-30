@@ -1,0 +1,30 @@
+# Host summary: one machine on one tile. Name and an online dot, bars for CPU, memory and disk, temperature and uptime.
+# Reads entities the person chooses per tile (no build to change them); a tap opens a popup with every value in full.
+id: host_tile
+version: 0.1.0
+api: "0.18"
+icon: server
+maintainer: davidcoulson
+license: MIT
+stage: beta
+topics: [tech, home]
+requires:
+  esphome: 2026.6.2
+boards: any
+flash_kb: 8
+
+tiles:
+  - id: host
+    name: tile_name
+    icon: server
+    sizes: { min: 2x1, max: 2x2 }
+    memory: 1500
+    example: tile_example
+    options:
+      - { id: host_name, kind: text, label: host_name }
+      - { id: cpu, kind: entity, domains: &sensors [sensor], attributes: &attrs [unit_of_measurement], label: cpu }
+      - { id: mem, kind: entity, domains: *sensors, attributes: *attrs, label: mem }
+      - { id: disk, kind: entity, domains: *sensors, attributes: *attrs, label: disk }
+      - { id: temp, kind: entity, domains: *sensors, attributes: *attrs, label: temp }
+      - { id: uptime, kind: entity, domains: *sensors, attributes: [unit_of_measurement, device_class], label: uptime, hint: uptime_hint }
+      - { id: online, kind: entity, domains: [binary_sensor, device_tracker, switch], attributes: [], label: online, hint: online_hint }

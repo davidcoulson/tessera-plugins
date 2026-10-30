@@ -1,0 +1,11 @@
+tiles:
+  - tile: grid
+    name: Homelab
+    options: { e1: sensor.cpu, e2: sensor.mem, e3: binary_sensor.ups, e4: sensor.temp, e5: switch.nas, e6: sensor.disk, limits: "80,90" }
+states:
+  sensor.cpu: { state: "45", attributes: { friendly_name: CPU, unit_of_measurement: "%" } }
+  sensor.mem: { state: "86", attributes: { friendly_name: Memory, unit_of_measurement: "%" } }
+  binary_sensor.ups: { state: "on", attributes: { friendly_name: UPS battery } }
+  sensor.temp: { state: "93", attributes: { friendly_name: Temp, unit_of_measurement: "°C" } }
+  switch.nas: { state: "off", attributes: { friendly_name: NAS } }
+  sensor.disk: { state: "unavailable", attributes: { friendly_name: Disk } }

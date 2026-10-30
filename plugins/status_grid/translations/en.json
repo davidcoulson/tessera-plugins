@@ -1,0 +1,31 @@
+{
+  "_meta": { "name": "English" },
+  "screen": {
+    "choose": "Choose entities",
+    "state": "State",
+    "changed": "Changed",
+    "just_now": "Just now",
+    "min_ago": "{n} min ago",
+    "hour_ago": "{n} h ago",
+    "day_ago": "{n} d ago"
+  },
+  "app": {
+    "name": "Status grid",
+    "summary": "Up to eight entities as cells that turn amber or red when a value passes your limits.",
+    "tile_name": "Status grid",
+    "tile_example": "CPU 45%, UPS on battery",
+    "entity_1": "Entity 1",
+    "entity_2": "Entity 2",
+    "entity_3": "Entity 3",
+    "entity_4": "Entity 4",
+    "entity_5": "Entity 5",
+    "entity_6": "Entity 6",
+    "entity_7": "Entity 7",
+    "entity_8": "Entity 8",
+    "limits": "Limits",
+    "limits_hint": "Warning and critical value for every number, such as 80,90.",
+    "direction": "Which side is bad",
+    "direction_high": "High is bad",
+    "direction_low": "Low is bad"
+  }
+}

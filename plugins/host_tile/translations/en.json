@@ -1,0 +1,29 @@
+{
+  "_meta": { "name": "English" },
+  "screen": {
+    "choose": "Choose entities",
+    "cpu": "CPU",
+    "mem": "Memory",
+    "disk": "Disk",
+    "temp": "Temperature",
+    "uptime": "Uptime",
+    "online": "Online",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "app": {
+    "name": "Host summary",
+    "summary": "One server on one tile: online dot, CPU, memory and disk bars, temperature and uptime.",
+    "tile_name": "Host summary",
+    "tile_example": "nas: CPU 12%, memory 61%, disk 78%",
+    "host_name": "Name",
+    "cpu": "CPU (%)",
+    "mem": "Memory (%)",
+    "disk": "Disk (%)",
+    "temp": "Temperature",
+    "uptime": "Uptime or last boot",
+    "uptime_hint": "A sensor of seconds, or a timestamp of the last boot.",
+    "online": "Online",
+    "online_hint": "A binary sensor or a ping; on or home counts as online."
+  }
+}
