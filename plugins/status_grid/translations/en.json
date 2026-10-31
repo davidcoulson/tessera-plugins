@@ -22,8 +22,8 @@
     "entity_6": "Entity 6",
     "entity_7": "Entity 7",
     "entity_8": "Entity 8",
-    "limits": "Limits",
-    "limits_hint": "Warning and critical value for every number, such as 80,90.",
+    "limits": "Limits per entity",
+    "limits_hint": "Warning,critical for each entity in order, separated by semicolons: 80,90;;50,70 sets entities 1 and 3. Empty means no colour.",
     "direction": "Which side is bad",
     "direction_high": "High is bad",
     "direction_low": "Low is bad"

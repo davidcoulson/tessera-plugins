@@ -1,7 +1,7 @@
 # Status grid: up to eight Home Assistant entities as coloured cells, red or amber by thresholds. Reads entities the
 # person chooses per tile (no build to change them) and opens a popup with the entity's state and age on a tap.
 id: status_grid
-version: 0.1.0
+version: 0.1.1
 api: "0.18"
 icon: view-grid
 maintainer: davidcoulson
@@ -29,7 +29,7 @@ tiles:
       - { id: e6, kind: entity, domains: *domains, attributes: *attrs, label: entity_6 }
       - { id: e7, kind: entity, domains: *domains, attributes: *attrs, label: entity_7 }
       - { id: e8, kind: entity, domains: *domains, attributes: *attrs, label: entity_8 }
-      - { id: limits, kind: text, default: "80,90", label: limits, hint: limits_hint }
+      - { id: limits, kind: text, default: "", label: limits, hint: limits_hint }
       - id: direction
         kind: choice
         default: high

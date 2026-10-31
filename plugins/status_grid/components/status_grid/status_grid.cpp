@@ -49,6 +49,8 @@ struct Cell {
   lv_obj_t *box{}, *name{}, *state{};
   bool active = false;
   Tone tone = Tone::NORMAL;
+  bool limited = false;
+  double warn = 0, crit = 0;
   std::string title, value;
   uint32_t updated = 0;
   int x = 0, y = 0, w = 0, h = 0;
@@ -62,8 +64,16 @@ class GridTile : public tessera::Tile {
     width_ = c.width;
     height_ = c.height;
     cols_ = c.columns >= 4 ? 4 : 2;
-    const char *limits = c.options["limits"] | "80,90";
-    have_limits_ = sscanf(limits, "%lf , %lf", &warn_, &crit_) == 2;
+    // "warn,crit" for each entity in order, separated by ";" (empty = no colouring): "80,90;;50,70" is entities 1 and 3.
+    const std::string limits = c.options["limits"] | "";
+    size_t from = 0;
+    for (int i = 0; i < CELLS && from <= limits.size(); i++) {
+      size_t semi = limits.find(';', from);
+      if (semi == std::string::npos) semi = limits.size();
+      const std::string part = limits.substr(from, semi - from);
+      cells_[i].limited = sscanf(part.c_str(), "%lf , %lf", &cells_[i].warn, &cells_[i].crit) == 2;
+      from = semi + 1;
+    }
     low_is_bad_ = std::string(c.options["direction"] | "high") == "low";
     for (Cell &cell : cells_) {
       cell.box = ui::block(c.parent, theme::TRACK);
@@ -96,7 +106,7 @@ class GridTile : public tessera::Tile {
       char *end = nullptr;
       const double v = strtod(state.c_str(), &end);
       if (!state.empty() && end && *end == 0) {
-        cell.tone = number_tone(v);
+        cell.tone = number_tone(cell, v);
         cell.value = *unit ? state + " " + unit : state;
       } else {
         cell.tone = state == "on" || state == "problem" || state == "unavailable" ? Tone::ALERT : Tone::GOOD;
@@ -122,11 +132,11 @@ class GridTile : public tessera::Tile {
   }
 
  private:
-  Tone number_tone(double v) const {
-    if (!have_limits_) return Tone::NORMAL;
+  Tone number_tone(const Cell &cell, double v) const {
+    if (!cell.limited) return Tone::NORMAL;
     const double sign = low_is_bad_ ? -1 : 1;
-    if (sign * v >= sign * crit_) return Tone::ALERT;
-    if (sign * v >= sign * warn_) return Tone::ACCENT;
+    if (sign * v >= sign * cell.crit) return Tone::ALERT;
+    if (sign * v >= sign * cell.warn) return Tone::ACCENT;
     return Tone::NORMAL;
   }
 
@@ -153,7 +163,7 @@ class GridTile : public tessera::Tile {
     const int gap = ui::px(4), pad = ui::px(6);
     const int cw = (width_ - gap * (cols - 1)) / cols;
     const int ch = rows ? (height_ - gap * (rows - 1)) / rows : 0;
-    const bool two_lines = ch >= 2 * ui::line_height(Font::BODY) + pad;
+    const bool two_lines = ch >= ui::line_height(Font::BODY) + ui::line_height(Font::BODY_LARGE) + pad;
     int k = 0;
     for (Cell &cell : cells_) {
       if (!cell.active) {
@@ -168,16 +178,6 @@ class GridTile : public tessera::Tile {
       lv_obj_remove_flag(cell.box, LV_OBJ_FLAG_HIDDEN);
       lv_obj_set_size(cell.box, cw, ch);
       lv_obj_set_pos(cell.box, cell.x, cell.y);
-      const int inner = cw - 2 * pad;
-      if (two_lines) {
-        lv_obj_set_width(cell.name, inner);
-        lv_obj_set_width(cell.state, inner);
-        lv_obj_set_pos(cell.name, pad, (ch - ui::line_height(Font::BODY) - ui::line_height(Font::TITLE)) / 2);
-        lv_obj_set_pos(cell.state, pad, lv_obj_get_y(cell.name) + ui::line_height(Font::BODY));
-      } else {
-        lv_obj_set_pos(cell.name, pad, (ch - ui::line_height(Font::BODY)) / 2);
-        lv_obj_set_pos(cell.state, pad, (ch - ui::line_height(Font::BODY)) / 2);
-      }
       two_lines_ = two_lines;
     }
   }
@@ -191,29 +191,40 @@ class GridTile : public tessera::Tile {
       ui::set_color(cell.state, plain ? theme::INK : theme::ON_ACCENT);
       ui::set_text(cell.name, cell.title);
       ui::set_text(cell.state, cell.value);
-      const int inner = cell.w - 2 * ui::px(6);
+      const int pad = ui::px(6), inner = cell.w - 2 * pad, bh = ui::line_height(Font::BODY);
+      // Place the parts from the fonts really in use, so the value never lands on the label.
       if (two_lines_) {
-        Font face = Font::TITLE;
-        for (Font f : {Font::TITLE, Font::BODY_LARGE, Font::BODY}) {
-          face = f;
-          if (ui::text_width(cell.value, f) <= inner) break;
+        Font face = Font::BODY_LARGE;
+        for (Font f : {Font::TITLE, Font::BODY_LARGE}) {
+          if (ui::text_width(cell.value, f) <= inner && bh + ui::line_height(f) <= cell.h - pad) {
+            face = f;
+            break;
+          }
         }
         ui::set_font(cell.state, face);
+        const int top = std::max(0, (cell.h - bh - ui::line_height(face)) / 2);
+        lv_obj_set_width(cell.name, inner);
+        lv_obj_set_width(cell.state, inner);
+        lv_obj_set_style_text_align(cell.state, LV_TEXT_ALIGN_LEFT, 0);
+        lv_obj_set_pos(cell.name, pad, top);
+        lv_obj_set_pos(cell.state, pad, top + bh);
       } else {
-        // One line: the state on the right, the name takes what is left.
+        // One line: the value on the right, the name takes what is left.
+        ui::set_font(cell.state, Font::BODY);
         const int sw = std::min(ui::text_width(cell.value, Font::BODY), inner * 2 / 3);
+        const int y = (cell.h - bh) / 2;
         lv_obj_set_width(cell.state, sw);
-        lv_obj_set_x(cell.state, cell.w - ui::px(6) - sw);
         lv_obj_set_style_text_align(cell.state, LV_TEXT_ALIGN_RIGHT, 0);
+        lv_obj_set_pos(cell.state, cell.w - pad - sw, y);
         lv_obj_set_width(cell.name, inner - sw - ui::px(4));
+        lv_obj_set_pos(cell.name, pad, y);
       }
     }
   }
 
   const tessera::Plugin *plugin_;
   int width_ = 0, height_ = 0, cols_ = 2;
-  bool have_limits_ = false, low_is_bad_ = false, two_lines_ = true;
-  double warn_ = 0, crit_ = 0;
+  bool low_is_bad_ = false, two_lines_ = true;
   uint32_t now_ = 0;
   Cell cells_[CELLS];
   lv_obj_t *hint_{};
